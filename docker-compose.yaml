@@ -1,0 +1,55 @@
+
+version: '3.0'
+services:
+
+  # Start LDAP server
+  # For the LDAP part of the demo we need an LDAP
+  # server running.
+  demo-ldap:
+    container_name: demo-ldap
+    build:
+      context: ./ldap
+      dockerfile: Dockerfile
+    networks: 
+      demo-network: {}
+
+  # Start mail server
+  # In order to allow Keycloak to send emails we need
+  # to configure an SMTP server. MailHog provides an
+  # excellent email server that can used for testing.
+  demo-mail:
+    container_name: demo-mail
+    image: mailhog/mailhog
+    ports:
+        - 8025:8025/tcp
+    networks: 
+        demo-network: {}
+
+  # Start Keycloak
+  # We're going to use an extended Keycloak image that includes a custom theme and some custom providers.
+  demo-keycloak:
+    container_name: demo-keycloak
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 8080:8080/tcp
+    networks: 
+      demo-network: {}
+  # Start JS Console application
+  # The JS Console application provides a playground 
+  # to play with tokens issued by Keycloak.
+  demo-js-console:
+    container_name: demo-js-console
+    build:
+      context: ./js-console
+      dockerfile: Dockerfile
+    ports:
+      - 8000:80/tcp
+
+
+networks:
+  demo-network: {}
