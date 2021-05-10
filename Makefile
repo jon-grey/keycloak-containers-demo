@@ -1,6 +1,7 @@
 
 
 mvn:
+	cd keycloak; \
 	mvn clean install
 
 up:
