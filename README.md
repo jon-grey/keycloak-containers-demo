@@ -6,7 +6,15 @@ The steps included here requires Docker (or Podman). It should also be possible 
 adapting the steps accordingly.
 
 
-## Start containers
+# Start containers 
+
+## Automated via Bash, Make, and Docker-Compose
+
+```sh
+make all
+```
+
+## Manually via Bash and Docker
 
 ### Create a user defined network
 
